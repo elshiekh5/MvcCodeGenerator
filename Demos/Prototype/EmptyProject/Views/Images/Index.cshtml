@@ -1,0 +1,128 @@
+﻿@model AppCore.ImagesModel
+
+@{
+    ViewBag.Title = "Images";
+}
+
+<h2>Images</h2>
+<div id="ImagesDialog" style="display: none" title="Add / Edit Images"> 
+    @Html.Partial("ImagesDialog")
+    </div>
+<br />
+<table id="ImagesList" style="display: none"></table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var ImagesPost = {
+            ObjectIsReady: false,
+			ImageID: null,
+			CategoryID: null,
+			Name: null,
+			Path: null,
+			ImageWidth: null,
+			ImageHeight: null,
+			ImageSize: null,
+			ImageExtension: null,
+			Data: null,
+			AppearingCount: null,
+			Identifire: null,
+			BlocKeys: null
+        };
+
+        var ImagesForm = {
+            //------------------------------------------------
+			ImageID: $("#ImageID"),
+			CategoryID: $("#CategoryID"),
+			Name: $("#Name"),
+			Path: $("#Path"),
+			ImageWidth: $("#ImageWidth"),
+			ImageHeight: $("#ImageHeight"),
+			ImageSize: $("#ImageSize"),
+			ImageExtension: $("#ImageExtension"),
+			Data: $("#Data"),
+			AppearingCount: $("#AppearingCount"),
+			Identifire: $("#Identifire"),
+			BlocKeys: $("#BlocKeys"),
+            //------------------------------------------------
+            ObjectIsReady: false,
+            formId: $("#ImagesNewsForm"),
+            list: $('#ImagesList'),
+            autoRefresh: true,
+            Validator: null,
+            //------------------------------------------------
+            AddURl: '/Images/Create',
+            UpdateURl: '/Images/Update',
+            DeleteUrl: '/Images/Delete',
+            GetObjeUrl: '/Images/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+				ImagesPost.ImageID = this.ImageID.val();
+				ImagesPost.CategoryID = this.CategoryID.val();
+				ImagesPost.Name = this.Name.val();
+				ImagesPost.Path = this.Path.val();
+				ImagesPost.ImageWidth = this.ImageWidth.val();
+				ImagesPost.ImageHeight = this.ImageHeight.val();
+				ImagesPost.ImageSize = this.ImageSize.val();
+				ImagesPost.ImageExtension = this.ImageExtension.val();
+				ImagesPost.Data = this.Data.val();
+				ImagesPost.AppearingCount = this.AppearingCount.val();
+				ImagesPost.Identifire = this.Identifire.val();
+				ImagesPost.BlocKeys = this.BlocKeys.val();
+                    ImagesPost.ObjectIsReady = true;
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+				this.ImageID.val("");
+				this.CategoryID.val("");
+				this.Name.val("");
+				this.Path.val("");
+				this.ImageWidth.val("");
+				this.ImageHeight.val("");
+				this.ImageSize.val("");
+				this.ImageExtension.val("");
+				this.Data.val("");
+				this.AppearingCount.val("");
+				this.Identifire.val("");
+				this.BlocKeys.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+					this.ImageID.val(data.ImageID);
+					this.CategoryID.val(data.CategoryID);
+					this.Name.val(data.Name);
+					this.Path.val(data.Path);
+					this.ImageWidth.val(data.ImageWidth);
+					this.ImageHeight.val(data.ImageHeight);
+					this.ImageSize.val(data.ImageSize);
+					this.ImageExtension.val(data.ImageExtension);
+					this.Data.val(data.Data);
+					this.AppearingCount.val(data.AppearingCount);
+					this.Identifire.val(data.Identifire);
+					this.BlocKeys.val(data.BlocKeys);
+                }
+            }
+        };
+         </script>
+        <div class="fgrid">
+    @Html.Partial("FlexiGrid",(CustomModels.FlexigridModels.FlexigridViewModel)ViewData["flexigrid"])
+            </div>
+}
+
+

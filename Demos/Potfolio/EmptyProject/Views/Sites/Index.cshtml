@@ -1,0 +1,118 @@
+﻿@model Portfolio.Models.SitesModel
+
+@{
+    ViewBag.Title = "Sites";
+}
+
+<h2>Sites</h2>
+<div id="SitesDialog" style="display: none" title="Add / Edit Sites"> 
+    @Html.Partial("SitesDialog")
+    </div>
+<br />
+<table id="SitesList" style="display: none"></table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var SitesPost = {
+            ObjectIsReady: false,
+			SiteID: null,
+			Name: null,
+			Url: null,
+			PhotoFile: null,
+			LogoFile: null,
+			Brief: null,
+			Address: null,
+			AgencyTypeID: null,
+			BusinessSectionID: null,
+			CountryID: null
+        };
+
+        var SitesForm = {
+            //------------------------------------------------
+			SiteID: $("#SiteID"),
+			Name: $("#Name"),
+			Url: $("#Url"),
+			PhotoFile: $("#PhotoFile"),
+			LogoFile: $("#LogoFile"),
+			Brief: $("#Brief"),
+			Address: $("#Address"),
+			AgencyTypeID: $("#AgencyTypeID"),
+			BusinessSectionID: $("#BusinessSectionID"),
+			CountryID: $("#CountryID"),
+            //------------------------------------------------
+            ObjectIsReady: false,
+            formId: $("#SitesNewsForm"),
+            list: $('#SitesList'),
+            autoRefresh: true,
+            Validator: null,
+            //------------------------------------------------
+            AddURl: '/Sites/Create',
+            UpdateURl: '/Sites/Update',
+            DeleteUrl: '/Sites/Delete',
+            GetObjeUrl: '/Sites/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+				SitesPost.SiteID = this.SiteID.val();
+				SitesPost.Name = this.Name.val();
+				SitesPost.Url = this.Url.val();
+				SitesPost.PhotoFile = this.PhotoFile.val();
+				SitesPost.LogoFile = this.LogoFile.val();
+				SitesPost.Brief = this.Brief.val();
+				SitesPost.Address = this.Address.val();
+				SitesPost.AgencyTypeID = this.AgencyTypeID.val();
+				SitesPost.BusinessSectionID = this.BusinessSectionID.val();
+				SitesPost.CountryID = this.CountryID.val();
+                    SitesPost.ObjectIsReady = true;
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+				this.SiteID.val("");
+				this.Name.val("");
+				this.Url.val("");
+				this.PhotoFile.val("");
+				this.LogoFile.val("");
+				this.Brief.val("");
+				this.Address.val("");
+				this.AgencyTypeID.val("");
+				this.BusinessSectionID.val("");
+				this.CountryID.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+					this.SiteID.val(data.SiteID);
+					this.Name.val(data.Name);
+					this.Url.val(data.Url);
+					this.PhotoFile.val(data.PhotoFile);
+					this.LogoFile.val(data.LogoFile);
+					this.Brief.val(data.Brief);
+					this.Address.val(data.Address);
+					this.AgencyTypeID.val(data.AgencyTypeID);
+					this.BusinessSectionID.val(data.BusinessSectionID);
+					this.CountryID.val(data.CountryID);
+                }
+            }
+        };
+         </script>
+        <div class="fgrid">
+    @Html.Partial("FlexiGrid",(CustomModels.FlexigridModels.FlexigridViewModel)ViewData["flexigrid"])
+            </div>
+}
+
+

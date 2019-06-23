@@ -1,0 +1,85 @@
+﻿@model IndexersCP4.Models.IndexersWithJournalsModel
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+	$(function () {
+		$("#SubmissionDate").val(""); $("#SubmissionDate").datepicker();
+		$("#AcceptanceDate").val(""); $("#AcceptanceDate").datepicker();
+		$("#RejectionDate").val(""); $("#RejectionDate").datepicker();
+	});
+</script>
+<form id="IndexersWithJournalsNewsForm" class="gForm">
+    @Html.ValidationSummary(true)
+     <div id="messageBox1">
+            <ul></ul> 
+        </div>
+    <fieldset>
+        <legend></legend>
+			@Html.HiddenFor(model => model.ID)
+		<div class="editor-label">
+			@Html.LabelFor(model => model.IndexerID)
+		</div>
+		<div class="editor-field">
+			@Html.DropDownListFor(x => x.IndexerID,  (IEnumerable<SelectListItem>)ViewData["IndexerID"],"Choose")
+			@Html.ValidationMessageFor(model => model.IndexerID)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.JournalCode)
+		</div>
+		<div class="editor-field">
+			@Html.DropDownListFor(x => x.JournalCode,  (IEnumerable<SelectListItem>)ViewData["JournalCode"],"Choose")
+			@Html.ValidationMessageFor(model => model.JournalCode)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.SubmissionDate)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.SubmissionDate)
+			@Html.ValidationMessageFor(model => model.SubmissionDate)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.AcceptanceDate)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.AcceptanceDate)
+			@Html.ValidationMessageFor(model => model.AcceptanceDate)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.RejectionDate)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.RejectionDate)
+			@Html.ValidationMessageFor(model => model.RejectionDate)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.NextEvaRound)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.NextEvaRound)
+			@Html.ValidationMessageFor(model => model.NextEvaRound)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.NoofEvaRound)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.NoofEvaRound)
+			@Html.ValidationMessageFor(model => model.NoofEvaRound)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.Notes)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.Notes)
+			@Html.ValidationMessageFor(model => model.Notes)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.StatusID)
+		</div>
+		<div class="editor-field">
+			@Html.DropDownListFor(x => x.StatusID,  (IEnumerable<SelectListItem>)ViewData["StatusID"],"Choose")
+			@Html.ValidationMessageFor(model => model.StatusID)
+		</div>
+    </fieldset>
+</form>

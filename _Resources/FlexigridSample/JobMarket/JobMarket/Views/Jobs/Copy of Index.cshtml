@@ -1,0 +1,319 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+    <div id="add-edit-dialog" style="display: none" title="Add / Edit Job Post"> 
+        <form id="add-edit-form">
+        <div id="messageBox1">
+            <ul></ul> 
+        </div>
+	   <fieldset>
+           <legend></legend>
+           <input type="hidden" name="itemid" id="itemid" />
+		    <label for="role">Role</label>
+		    <input type="text" name="role" id="role" class="text ui-widget-content ui-corner-all" />
+		    <label for="description">Description</label>
+            <textarea id="description" name="description" cols="32" rows="3" class="ui-widget-content" ></textarea>		
+		    <label for="jobtype">Job Type</label>
+		    <input type="text" name="jobtype" id="jobtype" value="" class="text ui-widget-content ui-corner-all" />
+            <label for="paymentrate">Payment Rate</label>
+		    <input type="text" name="paymentrate" id="paymentrate" value="" class="text ui-widget-content ui-corner-all" />
+            <label for="location">Location</label>
+		    <input type="text" name="location" id="location" value="" class="text ui-widget-content ui-corner-all" />
+	   </fieldset>
+            </form>
+    </div>
+
+
+<br />
+<table id="jobListing" style="display: none"></table>
+
+@section Styles {
+    <style>
+		input.text { margin-bottom:12px; width:95%; padding: .4em; }
+		fieldset { padding:0; border:0; margin-top:25px; }
+		h1 { font-size: 1.2em; margin: .6em 0; }
+		.ui-dialog .ui-state-error { padding: .3em; }        
+        .error {
+         border-color:red !important;
+         border-style:solid;
+         border-width:1px;
+        }
+        label.error {
+            border: none;
+        }
+        		
+	</style>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+
+    <script type="text/javascript">
+
+        var jobForm = {
+            ObjectIsReady: false,
+            formDialog: $("#add-edit-dialog"),
+            formId: $("#add-edit-form"),
+            Id_Control: $("#itemid"),
+            Role_Control: $("#role"),
+            Location_Control: $("#location"),
+            JobType_Control: $("#jobtype"),
+            Description_Control: $("#description"),
+
+
+            Save: function () {
+                if ($(this.formId).valid())
+                {
+                    this.LoadObject();
+
+                    $.ajax({
+                        type: 'POST',
+                        data: JSON.stringify(jobPost),
+                        url: '/Jobs/Save',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function (result) {
+                            // insert new list into grid
+                            alert("111111");
+                            // 
+                            alert("2222");
+                            jobForm.Clear();
+                            alert("44444");
+                            $('#jobListing').flexAddData(result);
+                            $("#add-edit-dialog").dialog("close");
+                            //$("#add-edit-dialog").dialog('close');
+                        }
+                    });
+
+                     
+                }
+                else
+                    return false;
+            },
+            LoadObject: function (id) {
+                $.ajax({
+                    type: "GET",
+                    url: encodeURI('@Url.Action("GetObject", "Jobs")' + "?id=" + id),
+                    cache: false,
+                    dataType: 'json',
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { alert(errorThrown); },
+                    success: function (data, textStatus, XMLHttpRequest) { this.LoadControls(data); },
+                    complete: function (XMLHttpRequest, textStatus) { this.formDialog.dialog("open"); }
+                });
+            }
+            ,
+            Cancel: function () {
+                this.formDialog.dialog("close");
+            },
+            LoadObject: function (dilogForm)
+            {
+                    jobPost.Id = this.Id_Control.val();
+                    jobPost.Role = this.Role_Control.val();
+                    jobPost.Location = this.Location_Control.val();
+                    jobPost.JobType = this.JobType_Control.val();
+                    jobPost.Description = this.Description_Control.val();
+                    jobPost.ObjectIsReady = true;
+            },
+            Clear: function () {
+                alert("33333");
+
+                    this.Id_Control.val("");
+                    this.Role_Control.val("");
+                    this.Location_Control.val("");
+                    this.JobType_Control.val("");
+                    this.Description_Control.val("");
+
+            },
+            LoadControls: function (data) {
+                if (data != null) {
+                    this.Id_Control.val(data.Id);
+                    this.Role_Control.val(data.Role);
+                    this.Location_Control.val(data.Location);
+                    this.JobType_Control.val(data.JobType);
+                    this.Description_Control.val(data.Description);
+                }
+            }
+
+        };
+
+
+
+        var jobPost = {
+            ObjectIsReady:false,
+            Id: null,
+            Role: null,
+            Location: null,
+            JobType: null,
+            Description: null
+
+        };
+        
+
+        //http://groups.google.com/group/flexigrid
+        $('#jobListing').flexigrid({
+            url: '/Jobs/List',
+            dataType: 'json',
+            colModel: [
+                {
+                display: 'Role',
+                name: 'Role',
+                width: 180,
+                sortable: true,
+                align: 'left'
+            },{
+                display: 'Description',
+                name: 'Description',
+                width: 180,
+                sortable: true,
+                align: 'left'
+            },{
+                display: 'Job Type',
+                name: 'JobType',
+                width: 130,
+                sortable: true,
+                align: 'left'
+            },{
+                display: 'Location',
+                name: 'Location',
+                width: 120,
+                sortable: true,
+                align: 'left'
+            }],
+            buttons: [{
+                name: 'Add',
+                bclass: 'add',
+                onpress: AddEditDelete
+            }, {
+                name: 'Edit',
+                bclass: 'edit',
+                onpress: AddEditDelete
+            }, {
+                name: 'Delete',
+                bclass: 'delete',
+                onpress: AddEditDelete
+            }, {
+                separator: true
+            }],
+            searchitems: [{
+                display: 'Role',
+                name: 'Role'
+            }, {
+                display: 'Location',
+                name: 'Location',
+                isdefault: true
+            }],
+            sortname: "Role",
+            sortorder: "asc",
+            usepager: true,
+            title: 'Job Listing',
+            useRp: true,
+            rp: 15,
+            showTableToggleBtn: true,
+            width: 700,
+            height: 200
+        });
+
+        function AddEditDelete(com, grid) {
+            var selectedRows = $('.trSelected', grid).length;
+            if (com == 'Edit' && selectedRows > 0) {
+                if (selectedRows == 1) {
+                    $('.trSelected', grid).each(function () {
+                        jobForm.LoadObject($(this).attr('id').substr(3));
+                    });
+                } else {
+                    alert("Select only one row");
+                }                
+            }
+            else if (com == 'Delete' && selectedRows > 0) {
+                var proceed = confirm('Delete ' + selectedRows + ' item(s)?');
+                
+                if (!proceed) {
+                    return false;
+                }
+
+                var ids = new Array();
+                
+                $('.trSelected', grid).each(function (index) {
+                    ids[index] = $(this).attr('id').substr(3);
+                });
+                
+                $.ajax({
+                    type: 'POST',
+                    data: JSON.stringify(ids),
+                    url: '/Jobs/Delete',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (result) {
+                        // insert new list into grid
+                        $('#jobListing').flexAddData(result);
+                    }
+                });
+                
+            } else if (com == 'Add') {
+                $("#add-edit-dialog").dialog("open");
+            }
+        }
+
+
+        $(document).ready(function(){
+            
+            // See the second answer: http://stackoverflow.com/questions/4453072/jquery-ui-dialog-with-form-validation-plugin 
+            
+            // Use the provided links to implement validate method for displaying errors
+            // http://www.mail-archive.com/jquery-en@googlegroups.com/msg70120.html
+            // http://justinribeiro.com/chronicle/2009/10/02/jquery-ui-modal-form-with-validation-and-form-plugin-integration/
+
+            var validator = $("#add-edit-form").validate({
+                errorContainer: "#messageBox1",
+                errorLabelContainer: "#messageBox1 ul",
+                wrapper: "li",
+                rules: {
+                    'role': { required: true },
+                    'description': { required: true },
+                    'location': { required: true }
+                },
+                messages: {
+                    'role': "The Role field is required",
+                    'description': "The Description field is required",
+                    'location': "The Location field is required"
+                }
+            });
+
+            MakeDialog("#add-edit");
+        });
+
+        function MakeDialog(dilogId)
+        {
+            var dilogDiv = dilogId + "-dialog";
+            var dilogForm = dilogId + "-form";
+            $(dilogDiv).dialog({
+                autoOpen: false,
+                height: 500,
+                width: 380,
+                modal: true,
+                buttons: {
+                    "Save": function () {
+                        jobForm.Save();
+
+                    },
+                    Cancel: function () {
+                        jobForm.Cancel();
+                        validator.resetForm();
+
+                    }
+                },
+                close: function () { setFormControls('', '', '', '', ''); },
+                open: function () {
+                    //$("#add-edit-dialog").parent().appendTo($("#add-edit-form"));
+                }
+            });
+        }
+	</script>
+
+}

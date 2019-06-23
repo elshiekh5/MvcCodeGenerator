@@ -1,0 +1,78 @@
+﻿@model IndexersCP4.Models.StatusModel
+
+@{
+    ViewBag.Title = "Status";
+}
+
+<h2>Status</h2>
+<div id="StatusDialog" style="display: none" title="Add / Edit Status"> 
+    @Html.Partial("StatusDialog")
+    </div>
+<br />
+<table id="StatusList" style="display: none"></table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var StatusPost = {
+            ObjectIsReady: false,
+			StatusID: null,
+			Title: null
+        };
+
+        var StatusForm = {
+            //------------------------------------------------
+			StatusID: $("#StatusID"),
+			Title: $("#Title"),
+            //------------------------------------------------
+            ObjectIsReady: false,
+            formId: $("#StatusNewsForm"),
+            list: $('#StatusList'),
+            autoRefresh: true,
+            Validator: null,
+            //------------------------------------------------
+            AddURl: '/Status/Create',
+            UpdateURl: '/Status/Update',
+            DeleteUrl: '/Status/Delete',
+            GetObjeUrl: '/Status/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+				StatusPost.StatusID = this.StatusID.val();
+				StatusPost.Title = this.Title.val();
+                    StatusPost.ObjectIsReady = true;
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+				this.StatusID.val("");
+				this.Title.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+					this.StatusID.val(data.StatusID);
+					this.Title.val(data.Title);
+                }
+            }
+        };
+         </script>
+        <div class="fgrid">
+    @Html.Partial("FlexiGrid",(CustomModels.FlexigridModels.FlexigridViewModel)ViewData["flexigrid"])
+            </div>
+}
+
+

@@ -1,0 +1,118 @@
+﻿@model IndexersCP4.Models.IndexersWithJournalsModel
+
+@{
+    ViewBag.Title = "IndexersWithJournals";
+}
+
+<h2>IndexersWithJournals</h2>
+<div id="IndexersWithJournalsDialog" style="display: none" title="Add / Edit IndexersWithJournals"> 
+    @Html.Partial("IndexersWithJournalsDialog")
+    </div>
+<br />
+<table id="IndexersWithJournalsList" style="display: none"></table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var IndexersWithJournalsPost = {
+            ObjectIsReady: false,
+			ID: null,
+			IndexerID: null,
+			JournalCode: null,
+			SubmissionDate: null,
+			AcceptanceDate: null,
+			RejectionDate: null,
+			NextEvaRound: null,
+			NoofEvaRound: null,
+			Notes: null,
+			StatusID: null
+        };
+
+        var IndexersWithJournalsForm = {
+            //------------------------------------------------
+			ID: $("#ID"),
+			IndexerID: $("#IndexerID"),
+			JournalCode: $("#JournalCode"),
+			SubmissionDate: $("#SubmissionDate"),
+			AcceptanceDate: $("#AcceptanceDate"),
+			RejectionDate: $("#RejectionDate"),
+			NextEvaRound: $("#NextEvaRound"),
+			NoofEvaRound: $("#NoofEvaRound"),
+			Notes: $("#Notes"),
+			StatusID: $("#StatusID"),
+            //------------------------------------------------
+            ObjectIsReady: false,
+            formId: $("#IndexersWithJournalsNewsForm"),
+            list: $('#IndexersWithJournalsList'),
+            autoRefresh: true,
+            Validator: null,
+            //------------------------------------------------
+            AddURl: '/IndexersWithJournals/Create',
+            UpdateURl: '/IndexersWithJournals/Update',
+            DeleteUrl: '/IndexersWithJournals/Delete',
+            GetObjeUrl: '/IndexersWithJournals/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+				IndexersWithJournalsPost.ID = this.ID.val();
+				IndexersWithJournalsPost.IndexerID = this.IndexerID.val();
+				IndexersWithJournalsPost.JournalCode = this.JournalCode.val();
+				IndexersWithJournalsPost.SubmissionDate = this.SubmissionDate.val();
+				IndexersWithJournalsPost.AcceptanceDate = this.AcceptanceDate.val();
+				IndexersWithJournalsPost.RejectionDate = this.RejectionDate.val();
+				IndexersWithJournalsPost.NextEvaRound = this.NextEvaRound.val();
+				IndexersWithJournalsPost.NoofEvaRound = this.NoofEvaRound.val();
+				IndexersWithJournalsPost.Notes = this.Notes.val();
+				IndexersWithJournalsPost.StatusID = this.StatusID.val();
+                    IndexersWithJournalsPost.ObjectIsReady = true;
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+				this.ID.val("");
+				this.IndexerID.val("");
+				this.JournalCode.val("");
+				this.SubmissionDate.val("");
+				this.AcceptanceDate.val("");
+				this.RejectionDate.val("");
+				this.NextEvaRound.val("");
+				this.NoofEvaRound.val("");
+				this.Notes.val("");
+				this.StatusID.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+					this.ID.val(data.ID);
+					this.IndexerID.val(data.IndexerID);
+					this.JournalCode.val(data.JournalCode);
+					this.SubmissionDate.val(FormController.FormatJsonDate(data.SubmissionDate));
+					this.AcceptanceDate.val(FormController.FormatJsonDate(data.AcceptanceDate));
+					this.RejectionDate.val(FormController.FormatJsonDate(data.RejectionDate));
+					this.NextEvaRound.val(data.NextEvaRound);
+					this.NoofEvaRound.val(data.NoofEvaRound);
+					this.Notes.val(data.Notes);
+					this.StatusID.val(data.StatusID);
+                }
+            }
+        };
+         </script>
+        <div class="fgrid">
+    @Html.Partial("FlexiGrid",(CustomModels.FlexigridModels.FlexigridViewModel)ViewData["flexigrid"])
+            </div>
+}
+
+

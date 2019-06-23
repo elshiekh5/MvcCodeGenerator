@@ -1,0 +1,33 @@
+﻿@model AppCore.RequestsModel
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+	$(function () {
+		$("#RequestTime").val(""); $("#RequestTime").datepicker();
+	});
+</script>
+<form id="RequestsNewsForm" class="gForm">
+    @Html.ValidationSummary(true)
+     <div id="messageBox1">
+            <ul></ul> 
+        </div>
+    <fieldset>
+        <legend></legend>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.RequestID)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.RequestID)
+			@Html.ValidationMessageFor(model => model.RequestID)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.RequestTime)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.RequestTime)
+			@Html.ValidationMessageFor(model => model.RequestTime)
+		</div>
+    </fieldset>
+</form>

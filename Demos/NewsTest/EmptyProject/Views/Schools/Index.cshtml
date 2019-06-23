@@ -1,0 +1,78 @@
+﻿@model Test.Models.SchoolsModel
+
+@{
+    ViewBag.Title = "Schools";
+}
+
+<h2>Schools</h2>
+<div id="SchoolsDialog" style="display: none" title="Add / Edit Schools"> 
+    @Html.Partial("SchoolsDialog")
+    </div>
+<br />
+<table id="SchoolsList" style="display: none"></table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var SchoolsPost = {
+            ObjectIsReady: false,
+			SchoolID: null,
+			Name: null
+        };
+
+        var SchoolsForm = {
+            //------------------------------------------------
+			SchoolID: $("#SchoolID"),
+			Name: $("#Name"),
+            //------------------------------------------------
+            ObjectIsReady: false,
+            formId: $("#SchoolsNewsForm"),
+            list: $('#SchoolsList'),
+            autoRefresh: true,
+            Validator: null,
+            //------------------------------------------------
+            AddURl: '/Schools/Create',
+            UpdateURl: '/Schools/Update',
+            DeleteUrl: '/Schools/Delete',
+            GetObjeUrl: '/Schools/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+				SchoolsPost.SchoolID = this.SchoolID.val();
+				SchoolsPost.Name = this.Name.val();
+                    SchoolsPost.ObjectIsReady = true;
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+				this.SchoolID.val("");
+				this.Name.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+					this.SchoolID.val(data.SchoolID);
+					this.Name.val(data.Name);
+                }
+            }
+        };
+         </script>
+        <div class="fgrid">
+    @Html.Partial("FlexiGrid",(CustomModels.FlexigridModels.FlexigridViewModel)ViewData["flexigrid"])
+            </div>
+}
+
+

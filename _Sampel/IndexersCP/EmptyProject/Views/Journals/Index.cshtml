@@ -1,0 +1,98 @@
+﻿@model IndexersCP4.Models.JournalsModel
+
+@{
+    ViewBag.Title = "Journals";
+}
+
+<h2>Journals</h2>
+<div id="JournalsDialog" style="display: none" title="Add / Edit Journals"> 
+    @Html.Partial("JournalsDialog")
+    </div>
+<br />
+<table id="JournalsList" style="display: none"></table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var JournalsPost = {
+            ObjectIsReady: false,
+			JournalCode: null,
+			FullTitle: null,
+			ShortTitle: null,
+			JournalSubCode: null,
+			JournalOwner: null,
+			Note: null
+        };
+
+        var JournalsForm = {
+            //------------------------------------------------
+			JournalCode: $("#JournalCode"),
+			FullTitle: $("#FullTitle"),
+			ShortTitle: $("#ShortTitle"),
+			JournalSubCode: $("#JournalSubCode"),
+			JournalOwner: $("#JournalOwner"),
+			Note: $("#Note"),
+            //------------------------------------------------
+            ObjectIsReady: false,
+            formId: $("#JournalsNewsForm"),
+            list: $('#JournalsList'),
+            autoRefresh: true,
+            Validator: null,
+            //------------------------------------------------
+            AddURl: '/Journals/Create',
+            UpdateURl: '/Journals/Update',
+            DeleteUrl: '/Journals/Delete',
+            GetObjeUrl: '/Journals/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+				JournalsPost.JournalCode = this.JournalCode.val();
+				JournalsPost.FullTitle = this.FullTitle.val();
+				JournalsPost.ShortTitle = this.ShortTitle.val();
+				JournalsPost.JournalSubCode = this.JournalSubCode.val();
+				JournalsPost.JournalOwner = this.JournalOwner.val();
+				JournalsPost.Note = this.Note.val();
+                    JournalsPost.ObjectIsReady = true;
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+				this.JournalCode.val("");
+				this.FullTitle.val("");
+				this.ShortTitle.val("");
+				this.JournalSubCode.val("");
+				this.JournalOwner.val("");
+				this.Note.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+					this.JournalCode.val(data.JournalCode);
+					this.FullTitle.val(data.FullTitle);
+					this.ShortTitle.val(data.ShortTitle);
+					this.JournalSubCode.val(data.JournalSubCode);
+					this.JournalOwner.val(data.JournalOwner);
+					this.Note.val(data.Note);
+                }
+            }
+        };
+         </script>
+        <div class="fgrid">
+    @Html.Partial("FlexiGrid",(CustomModels.FlexigridModels.FlexigridViewModel)ViewData["flexigrid"])
+            </div>
+}
+
+

@@ -1,0 +1,93 @@
+﻿@model AppCore.ImagesModel
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<form id="ImagesNewsForm" class="gForm">
+    @Html.ValidationSummary(true)
+     <div id="messageBox1">
+            <ul></ul> 
+        </div>
+    <fieldset>
+        <legend></legend>
+			@Html.HiddenFor(model => model.ImageID)
+		<div class="editor-label">
+			@Html.LabelFor(model => model.CategoryID)
+		</div>
+		<div class="editor-field">
+			@Html.DropDownListFor(x => x.CategoryID,  (IEnumerable<SelectListItem>)ViewData["CategoryID"],"Choose")
+			@Html.ValidationMessageFor(model => model.CategoryID)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.Name)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.Name)
+			@Html.ValidationMessageFor(model => model.Name)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.Path)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.Path)
+			@Html.ValidationMessageFor(model => model.Path)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.ImageWidth)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.ImageWidth)
+			@Html.ValidationMessageFor(model => model.ImageWidth)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.ImageHeight)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.ImageHeight)
+			@Html.ValidationMessageFor(model => model.ImageHeight)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.ImageSize)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.ImageSize)
+			@Html.ValidationMessageFor(model => model.ImageSize)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.ImageExtension)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.ImageExtension)
+			@Html.ValidationMessageFor(model => model.ImageExtension)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.Data)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.Data)
+			@Html.ValidationMessageFor(model => model.Data)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.AppearingCount)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.AppearingCount)
+			@Html.ValidationMessageFor(model => model.AppearingCount)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.Identifire)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.Identifire)
+			@Html.ValidationMessageFor(model => model.Identifire)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.BlocKeys)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.BlocKeys)
+			@Html.ValidationMessageFor(model => model.BlocKeys)
+		</div>
+    </fieldset>
+</form>

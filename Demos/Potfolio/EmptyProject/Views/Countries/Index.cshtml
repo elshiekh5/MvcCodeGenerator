@@ -1,0 +1,113 @@
+﻿@model Portfolio.Models.CountriesModel
+
+@{
+    ViewBag.Title = "Countries";
+}
+
+<h2>Countries</h2>
+<div id="CountriesDialog" style="display: none" title="Add / Edit Countries"> 
+    @Html.Partial("CountriesDialog")
+    </div>
+<br />
+<table id="CountriesList" style="display: none"></table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var CountriesPost = {
+            ObjectIsReady: false,
+			CountryID: null,
+			Code: null,
+			EnglishName: null,
+			ArabicName: null,
+			TIMEZONE_H: null,
+			TIMEZONE_M: null,
+			Reg_ID: null,
+			SimpleArName: null,
+			SimpleEnName: null
+        };
+
+        var CountriesForm = {
+            //------------------------------------------------
+			CountryID: $("#CountryID"),
+			Code: $("#Code"),
+			EnglishName: $("#EnglishName"),
+			ArabicName: $("#ArabicName"),
+			TIMEZONE_H: $("#TIMEZONE_H"),
+			TIMEZONE_M: $("#TIMEZONE_M"),
+			Reg_ID: $("#Reg_ID"),
+			SimpleArName: $("#SimpleArName"),
+			SimpleEnName: $("#SimpleEnName"),
+            //------------------------------------------------
+            ObjectIsReady: false,
+            formId: $("#CountriesNewsForm"),
+            list: $('#CountriesList'),
+            autoRefresh: true,
+            Validator: null,
+            //------------------------------------------------
+            AddURl: '/Countries/Create',
+            UpdateURl: '/Countries/Update',
+            DeleteUrl: '/Countries/Delete',
+            GetObjeUrl: '/Countries/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+				CountriesPost.CountryID = this.CountryID.val();
+				CountriesPost.Code = this.Code.val();
+				CountriesPost.EnglishName = this.EnglishName.val();
+				CountriesPost.ArabicName = this.ArabicName.val();
+				CountriesPost.TIMEZONE_H = this.TIMEZONE_H.val();
+				CountriesPost.TIMEZONE_M = this.TIMEZONE_M.val();
+				CountriesPost.Reg_ID = this.Reg_ID.val();
+				CountriesPost.SimpleArName = this.SimpleArName.val();
+				CountriesPost.SimpleEnName = this.SimpleEnName.val();
+                    CountriesPost.ObjectIsReady = true;
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+				this.CountryID.val("");
+				this.Code.val("");
+				this.EnglishName.val("");
+				this.ArabicName.val("");
+				this.TIMEZONE_H.val("");
+				this.TIMEZONE_M.val("");
+				this.Reg_ID.val("");
+				this.SimpleArName.val("");
+				this.SimpleEnName.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+					this.CountryID.val(data.CountryID);
+					this.Code.val(data.Code);
+					this.EnglishName.val(data.EnglishName);
+					this.ArabicName.val(data.ArabicName);
+					this.TIMEZONE_H.val(data.TIMEZONE_H);
+					this.TIMEZONE_M.val(data.TIMEZONE_M);
+					this.Reg_ID.val(data.Reg_ID);
+					this.SimpleArName.val(data.SimpleArName);
+					this.SimpleEnName.val(data.SimpleEnName);
+                }
+            }
+        };
+         </script>
+        <div class="fgrid">
+    @Html.Partial("FlexiGrid",(CustomModels.FlexigridModels.FlexigridViewModel)ViewData["flexigrid"])
+            </div>
+}
+
+

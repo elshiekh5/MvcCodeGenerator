@@ -1,0 +1,62 @@
+﻿@model IndexersCP4.Models.RoundsLogModel
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+	$(function () {
+		$("#RoundDate").val(""); $("#RoundDate").datepicker();
+	});
+</script>
+<form id="RoundsLogNewsForm" class="gForm">
+    @Html.ValidationSummary(true)
+     <div id="messageBox1">
+            <ul></ul> 
+        </div>
+    <fieldset>
+        <legend></legend>
+			@Html.HiddenFor(model => model.RoundID)
+		<div class="editor-label">
+			@Html.LabelFor(model => model.IndexerID)
+		</div>
+		<div class="editor-field">
+			@Html.DropDownListFor(x => x.IndexerID,  (IEnumerable<SelectListItem>)ViewData["IndexerID"],"Choose")
+			@Html.ValidationMessageFor(model => model.IndexerID)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.JournalCode)
+		</div>
+		<div class="editor-field">
+			@Html.DropDownListFor(x => x.JournalCode,  (IEnumerable<SelectListItem>)ViewData["JournalCode"],"Choose")
+			@Html.ValidationMessageFor(model => model.JournalCode)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.RoundDate)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.RoundDate)
+			@Html.ValidationMessageFor(model => model.RoundDate)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.StatusID)
+		</div>
+		<div class="editor-field">
+			@Html.DropDownListFor(x => x.StatusID,  (IEnumerable<SelectListItem>)ViewData["StatusID"],"Choose")
+			@Html.ValidationMessageFor(model => model.StatusID)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.NextEvaRound)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.NextEvaRound)
+			@Html.ValidationMessageFor(model => model.NextEvaRound)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.Notes)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.Notes)
+			@Html.ValidationMessageFor(model => model.Notes)
+		</div>
+    </fieldset>
+</form>

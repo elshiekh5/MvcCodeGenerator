@@ -1,0 +1,103 @@
+﻿@model IndexersCP4.Models.RoundsLogModel
+
+@{
+    ViewBag.Title = "RoundsLog";
+}
+
+<h2>RoundsLog</h2>
+<div id="RoundsLogDialog" style="display: none" title="Add / Edit RoundsLog"> 
+    @Html.Partial("RoundsLogDialog")
+    </div>
+<br />
+<table id="RoundsLogList" style="display: none"></table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var RoundsLogPost = {
+            ObjectIsReady: false,
+			RoundID: null,
+			IndexerID: null,
+			JournalCode: null,
+			RoundDate: null,
+			StatusID: null,
+			NextEvaRound: null,
+			Notes: null
+        };
+
+        var RoundsLogForm = {
+            //------------------------------------------------
+			RoundID: $("#RoundID"),
+			IndexerID: $("#IndexerID"),
+			JournalCode: $("#JournalCode"),
+			RoundDate: $("#RoundDate"),
+			StatusID: $("#StatusID"),
+			NextEvaRound: $("#NextEvaRound"),
+			Notes: $("#Notes"),
+            //------------------------------------------------
+            ObjectIsReady: false,
+            formId: $("#RoundsLogNewsForm"),
+            list: $('#RoundsLogList'),
+            autoRefresh: true,
+            Validator: null,
+            //------------------------------------------------
+            AddURl: '/RoundsLog/Create',
+            UpdateURl: '/RoundsLog/Update',
+            DeleteUrl: '/RoundsLog/Delete',
+            GetObjeUrl: '/RoundsLog/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+				RoundsLogPost.RoundID = this.RoundID.val();
+				RoundsLogPost.IndexerID = this.IndexerID.val();
+				RoundsLogPost.JournalCode = this.JournalCode.val();
+				RoundsLogPost.RoundDate = this.RoundDate.val();
+				RoundsLogPost.StatusID = this.StatusID.val();
+				RoundsLogPost.NextEvaRound = this.NextEvaRound.val();
+				RoundsLogPost.Notes = this.Notes.val();
+                    RoundsLogPost.ObjectIsReady = true;
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+				this.RoundID.val("");
+				this.IndexerID.val("");
+				this.JournalCode.val("");
+				this.RoundDate.val("");
+				this.StatusID.val("");
+				this.NextEvaRound.val("");
+				this.Notes.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+					this.RoundID.val(data.RoundID);
+					this.IndexerID.val(data.IndexerID);
+					this.JournalCode.val(data.JournalCode);
+					this.RoundDate.val(FormController.FormatJsonDate(data.RoundDate));
+					this.StatusID.val(data.StatusID);
+					this.NextEvaRound.val(data.NextEvaRound);
+					this.Notes.val(data.Notes);
+                }
+            }
+        };
+         </script>
+        <div class="fgrid">
+    @Html.Partial("FlexiGrid",(CustomModels.FlexigridModels.FlexigridViewModel)ViewData["flexigrid"])
+            </div>
+}
+
+

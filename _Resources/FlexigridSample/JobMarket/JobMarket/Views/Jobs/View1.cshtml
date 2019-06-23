@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "View1";
+}
+
+<h2>View1</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>JobPost</legend>
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Role)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Role)
+            @Html.ValidationMessageFor(model => model.Role)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Location)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Location)
+            @Html.ValidationMessageFor(model => model.Location)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.JobType)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.JobType)
+            @Html.ValidationMessageFor(model => model.JobType)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PaymentRate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PaymentRate)
+            @Html.ValidationMessageFor(model => model.PaymentRate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Description)
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ContactName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ContactName)
+            @Html.ValidationMessageFor(model => model.ContactName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ContactPhone)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ContactPhone)
+            @Html.ValidationMessageFor(model => model.ContactPhone)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ModifiedDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ModifiedDate)
+            @Html.ValidationMessageFor(model => model.ModifiedDate)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

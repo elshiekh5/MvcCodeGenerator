@@ -1,0 +1,29 @@
+﻿@model IndexersCP4.Models.StatusModel
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<form id="StatusNewsForm" class="gForm">
+    @Html.ValidationSummary(true)
+     <div id="messageBox1">
+            <ul></ul> 
+        </div>
+    <fieldset>
+        <legend></legend>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.StatusID)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.StatusID)
+			@Html.ValidationMessageFor(model => model.StatusID)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.Title)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.Title)
+			@Html.ValidationMessageFor(model => model.Title)
+		</div>
+    </fieldset>
+</form>

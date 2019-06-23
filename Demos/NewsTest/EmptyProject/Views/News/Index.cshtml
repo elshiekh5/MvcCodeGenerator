@@ -1,0 +1,128 @@
+﻿@model Test.Models.NewsModel
+
+@{
+    ViewBag.Title = "News";
+}
+
+<h2>News</h2>
+<div id="NewsDialog" style="display: none" title="Add / Edit News"> 
+    @Html.Partial("NewsDialog")
+    </div>
+<br />
+<table id="NewsList" style="display: none"></table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var NewsPost = {
+            ObjectIsReady: false,
+			NewsID: null,
+			LangID: null,
+			Type: null,
+			Title: null,
+			Details: null,
+			PhotoFile: null,
+			PhotoName: null,
+			AttachFile: null,
+			AttachName: null,
+			EndDate: null,
+			InsertDate: null,
+			LastModfiedDate: null
+        };
+
+        var NewsForm = {
+            //------------------------------------------------
+			NewsID: $("#NewsID"),
+			LangID: $("#LangID"),
+			Type: $("#Type"),
+			Title: $("#Title"),
+			Details: $("#Details"),
+			PhotoFile: $("#PhotoFile"),
+			PhotoName: $("#PhotoName"),
+			AttachFile: $("#AttachFile"),
+			AttachName: $("#AttachName"),
+			EndDate: $("#EndDate"),
+			InsertDate: $("#InsertDate"),
+			LastModfiedDate: $("#LastModfiedDate"),
+            //------------------------------------------------
+            ObjectIsReady: false,
+            formId: $("#NewsNewsForm"),
+            list: $('#NewsList'),
+            autoRefresh: true,
+            Validator: null,
+            //------------------------------------------------
+            AddURl: '/News/Create',
+            UpdateURl: '/News/Update',
+            DeleteUrl: '/News/Delete',
+            GetObjeUrl: '/News/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+				NewsPost.NewsID = this.NewsID.val();
+				NewsPost.LangID = this.LangID.val();
+				NewsPost.Type = this.Type.val();
+				NewsPost.Title = this.Title.val();
+				NewsPost.Details = this.Details.val();
+				NewsPost.PhotoFile = this.PhotoFile.val();
+				NewsPost.PhotoName = this.PhotoName.val();
+				NewsPost.AttachFile = this.AttachFile.val();
+				NewsPost.AttachName = this.AttachName.val();
+				NewsPost.EndDate = this.EndDate.val();
+				NewsPost.InsertDate = this.InsertDate.val();
+				NewsPost.LastModfiedDate = this.LastModfiedDate.val();
+                    NewsPost.ObjectIsReady = true;
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+				this.NewsID.val("");
+				this.LangID.val("");
+				this.Type.val("");
+				this.Title.val("");
+				this.Details.val("");
+				this.PhotoFile.val("");
+				this.PhotoName.val("");
+				this.AttachFile.val("");
+				this.AttachName.val("");
+				this.EndDate.val("");
+				this.InsertDate.val("");
+				this.LastModfiedDate.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+					this.NewsID.val(data.NewsID);
+					this.LangID.val(data.LangID);
+					this.Type.val(data.Type);
+					this.Title.val(data.Title);
+					this.Details.val(data.Details);
+					this.PhotoFile.val(data.PhotoFile);
+					this.PhotoName.val(data.PhotoName);
+					this.AttachFile.val(data.AttachFile);
+					this.AttachName.val(data.AttachName);
+					this.EndDate.val(FormController.FormatJsonDate(data.EndDate));
+					this.InsertDate.val(FormController.FormatJsonDate(data.InsertDate));
+					this.LastModfiedDate.val(FormController.FormatJsonDate(data.LastModfiedDate));
+                }
+            }
+        };
+         </script>
+        <div class="fgrid">
+    @Html.Partial("FlexiGrid",(CustomModels.FlexigridModels.FlexigridViewModel)ViewData["flexigrid"])
+            </div>
+}
+
+

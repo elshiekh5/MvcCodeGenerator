@@ -1,0 +1,100 @@
+﻿@model CustomModels.FlexigridModels.FlexigridViewModel
+<script type="text/javascript">
+        //http://groups.google.com/group/flexigrid
+        $('#@Model.ID').flexigrid({
+            url: '@Html.Raw(Model.Url)',
+            dataType: '@Model.DataType',
+            colModel:
+            [
+                @for (int i = 0; i < Model.Columns.Count-1; i++)
+                {
+                 @Html.Partial("FlexigridColumn",Model.Columns[i])
+                    @Html.Raw(",");
+                }
+                 @Html.Partial("FlexigridColumn", Model.Columns[Model.Columns.Count-1])
+            ]
+            ,
+            buttons:
+            [
+                @for (int i = 0; i < Model.Buttons.Count-1; i++)
+                {
+                 @Html.Partial("FlexigridButton",Model.Buttons[i])
+                    @Html.Raw(",");
+                    
+                }
+                 @if (Model.Buttons.Count>0)
+                 {
+                    @Html.Partial("FlexigridButton", Model.Buttons[Model.Buttons.Count-1])
+                 }
+                 @if(Model.SetButtonsSerator)
+                 {
+                    @Html.Raw(",{ separator: true }")
+                 }
+            ],
+            @if(Model.SearchColumns.Count>0)
+            {
+                @Html.Raw("searchitems:[");
+                int scindex=0;
+                foreach (int sc in Model.SearchColumns)
+                {
+                    @Html.Partial("FlexiGridSearchItem",Model.Columns[sc])
+                    if (scindex++ < Model.SearchColumns.Count - 1)
+                    {
+                        @Html.Raw(",");
+                    }
+                }
+                @Html.Raw("],");
+           }
+            sortname: "@Model.SortName",
+            sortorder: "@Model.SortOrder",
+            usepager: @Model.GetPropString(Model.UsePager),
+            title: '@Model.Title',
+            useRp: @Model.GetPropString(Model.UseRp),
+            rp: @Model.Rp,
+            rpOptions: [50],
+            showTableToggleBtn: @Model.GetPropString(Model.ShowTableToggleBtn),
+            width: @Model.Width,
+            height: @Model.Height
+        });
+
+        function Add(com, grid)
+        {            
+            FormController.FireAdd();
+        }
+        function Edit(com, grid) {
+            var selectedRows = $('.trSelected', grid).length;
+            if (com == 'Edit' && selectedRows > 0) {
+                if (selectedRows == 1) {
+                    $('.trSelected', grid).each(function () {
+                        FormController.LoadData($(this).attr('id').substr(3));
+                    });
+                } else {
+                    alert("Select only one row");
+                }
+            }
+        }
+        function Delete(com, grid) {
+            var selectedRows = $('.trSelected', grid).length;
+            if (selectedRows > 0) {
+                var proceed = confirm('Delete ' + selectedRows + ' item(s)?');
+                if (!proceed) {
+                    return false;
+                }
+
+                var ids = new Array();
+                
+                $('.trSelected', grid).each(function (index) {
+                    ids[index] = $(this).attr('id').substr(3);
+                });
+                
+                FormController.Delete(ids);
+                
+            } 
+        }
+
+        $(document).ready(function(){
+            FormController.Init(@Model.jsForm,@Model.jsObject, "#@Model.DialogBoxId",@Model.DialogBoxWidth,@Model.DialogBoxHeight);
+        });
+
+        
+	</script>

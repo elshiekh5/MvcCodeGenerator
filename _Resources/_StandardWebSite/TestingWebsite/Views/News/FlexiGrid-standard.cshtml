@@ -1,0 +1,80 @@
+﻿<script type="text/javascript">
+        //http://groups.google.com/group/flexigrid
+        $('#newsList').flexigrid({
+            url: '/News/List',
+            dataType: 'json',
+            colModel:
+            [
+                {display: 'Title', name: 'Title', width: 180, sortable: true,  align: 'left'}
+                ,
+                {display: 'Description', name: 'Description', width: 180, sortable: true, align: 'left'}
+                ,
+                {display: 'Type', name: 'Type', width: 130, sortable: true, align: 'left'}
+                ,
+                {display: 'DateInserted',name: 'DateInserted',width: 120,sortable: true,align: 'left'}
+            ]
+            ,
+            buttons:
+            [
+                { name: 'Add', bclass: 'add', onpress: Add },
+                { name: 'Edit', bclass: 'edit', onpress: Edit },
+                { name: 'Delete', bclass: 'delete', onpress: Delete },
+                { separator: true }
+            ],
+            searchitems:
+            [
+                { display: 'Title', name: 'Title', isdefault: true },
+                { display: 'DateInserted', name: 'DateInserted' }
+            ],
+            sortname: "Title",
+            sortorder: "asc",
+            usepager: true,
+            title: 'News Listing',
+            useRp: true,
+            rp: 15,
+            showTableToggleBtn: true,
+            width: 800,
+            height: 500
+        });
+
+        function Add(com, grid)
+        {            
+           FormController.OpenDialog();
+        }
+        function Edit(com, grid) {
+            var selectedRows = $('.trSelected', grid).length;
+            if (com == 'Edit' && selectedRows > 0) {
+                if (selectedRows == 1) {
+                    $('.trSelected', grid).each(function () {
+                        FormController.LoadData($(this).attr('id').substr(3));
+                    });
+                } else {
+                    alert("Select only one row");
+                }
+            }
+        }
+        function Delete(com, grid) {
+            var selectedRows = $('.trSelected', grid).length;
+            if (selectedRows > 0) {
+                var proceed = confirm('Delete ' + selectedRows + ' item(s)?');
+                if (!proceed) {
+                    return false;
+                }
+
+                var ids = new Array();
+                
+                $('.trSelected', grid).each(function (index) {
+                    ids[index] = $(this).attr('id').substr(3);
+                });
+                
+                FormController.Delete(ids);
+                
+            } 
+        }
+
+        $(document).ready(function(){
+            FormController.Init(jobForm, "#NewsDialog",700,800);
+        });
+
+        
+	</script>

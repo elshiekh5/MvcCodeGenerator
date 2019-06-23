@@ -1,0 +1,78 @@
+﻿@model Portfolio.Models.BusinessSectionsModel
+
+@{
+    ViewBag.Title = "BusinessSections";
+}
+
+<h2>BusinessSections</h2>
+<div id="BusinessSectionsDialog" style="display: none" title="Add / Edit BusinessSections"> 
+    @Html.Partial("BusinessSectionsDialog")
+    </div>
+<br />
+<table id="BusinessSectionsList" style="display: none"></table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var BusinessSectionsPost = {
+            ObjectIsReady: false,
+			BusinessSectionID: null,
+			Title: null
+        };
+
+        var BusinessSectionsForm = {
+            //------------------------------------------------
+			BusinessSectionID: $("#BusinessSectionID"),
+			Title: $("#Title"),
+            //------------------------------------------------
+            ObjectIsReady: false,
+            formId: $("#BusinessSectionsNewsForm"),
+            list: $('#BusinessSectionsList'),
+            autoRefresh: true,
+            Validator: null,
+            //------------------------------------------------
+            AddURl: '/BusinessSections/Create',
+            UpdateURl: '/BusinessSections/Update',
+            DeleteUrl: '/BusinessSections/Delete',
+            GetObjeUrl: '/BusinessSections/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+				BusinessSectionsPost.BusinessSectionID = this.BusinessSectionID.val();
+				BusinessSectionsPost.Title = this.Title.val();
+                    BusinessSectionsPost.ObjectIsReady = true;
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+				this.BusinessSectionID.val("");
+				this.Title.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+					this.BusinessSectionID.val(data.BusinessSectionID);
+					this.Title.val(data.Title);
+                }
+            }
+        };
+         </script>
+        <div class="fgrid">
+    @Html.Partial("FlexiGrid",(CustomModels.FlexigridModels.FlexigridViewModel)ViewData["flexigrid"])
+            </div>
+}
+
+

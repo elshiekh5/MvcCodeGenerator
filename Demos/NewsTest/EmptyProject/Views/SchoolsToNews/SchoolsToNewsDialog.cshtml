@@ -1,0 +1,36 @@
+﻿@model Test.Models.SchoolsToNewsModel
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<form id="SchoolsToNewsNewsForm" class="gForm">
+    @Html.ValidationSummary(true)
+     <div id="messageBox1">
+            <ul></ul> 
+        </div>
+    <fieldset>
+        <legend></legend>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.ShoolsToNewsID)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.ShoolsToNewsID)
+			@Html.ValidationMessageFor(model => model.ShoolsToNewsID)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.SchoolID)
+		</div>
+		<div class="editor-field">
+			@Html.DropDownListFor(x => x.SchoolID,  (IEnumerable<SelectListItem>)ViewData["SchoolID"],"Choose")
+			@Html.ValidationMessageFor(model => model.SchoolID)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.NewsID)
+		</div>
+		<div class="editor-field">
+			@Html.DropDownListFor(x => x.NewsID,  (IEnumerable<SelectListItem>)ViewData["NewsID"],"Choose")
+			@Html.ValidationMessageFor(model => model.NewsID)
+		</div>
+    </fieldset>
+</form>

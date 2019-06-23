@@ -1,0 +1,88 @@
+﻿@model Test.Models.LanguagesModel
+
+@{
+    ViewBag.Title = "Languages";
+}
+
+<h2>Languages</h2>
+<div id="LanguagesDialog" style="display: none" title="Add / Edit Languages"> 
+    @Html.Partial("LanguagesDialog")
+    </div>
+<br />
+<table id="LanguagesList" style="display: none"></table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var LanguagesPost = {
+            ObjectIsReady: false,
+			LangID: null,
+			Name: null,
+			Code: null,
+			LocalizationCode: null
+        };
+
+        var LanguagesForm = {
+            //------------------------------------------------
+			LangID: $("#LangID"),
+			Name: $("#Name"),
+			Code: $("#Code"),
+			LocalizationCode: $("#LocalizationCode"),
+            //------------------------------------------------
+            ObjectIsReady: false,
+            formId: $("#LanguagesNewsForm"),
+            list: $('#LanguagesList'),
+            autoRefresh: true,
+            Validator: null,
+            //------------------------------------------------
+            AddURl: '/Languages/Create',
+            UpdateURl: '/Languages/Update',
+            DeleteUrl: '/Languages/Delete',
+            GetObjeUrl: '/Languages/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+				LanguagesPost.LangID = this.LangID.val();
+				LanguagesPost.Name = this.Name.val();
+				LanguagesPost.Code = this.Code.val();
+				LanguagesPost.LocalizationCode = this.LocalizationCode.val();
+                    LanguagesPost.ObjectIsReady = true;
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+				this.LangID.val("");
+				this.Name.val("");
+				this.Code.val("");
+				this.LocalizationCode.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+					this.LangID.val(data.LangID);
+					this.Name.val(data.Name);
+					this.Code.val(data.Code);
+					this.LocalizationCode.val(data.LocalizationCode);
+                }
+            }
+        };
+         </script>
+        <div class="fgrid">
+    @Html.Partial("FlexiGrid",(CustomModels.FlexigridModels.FlexigridViewModel)ViewData["flexigrid"])
+            </div>
+}
+
+

@@ -1,0 +1,88 @@
+﻿@model AppCore.ImagesCategoriesModel
+
+@{
+    ViewBag.Title = "ImagesCategories";
+}
+
+<h2>ImagesCategories</h2>
+<div id="ImagesCategoriesDialog" style="display: none" title="Add / Edit ImagesCategories"> 
+    @Html.Partial("ImagesCategoriesDialog")
+    </div>
+<br />
+<table id="ImagesCategoriesList" style="display: none"></table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var ImagesCategoriesPost = {
+            ObjectIsReady: false,
+			CategoryID: null,
+			Identifire: null,
+			NameEn: null,
+			NameAr: null
+        };
+
+        var ImagesCategoriesForm = {
+            //------------------------------------------------
+			CategoryID: $("#CategoryID"),
+			Identifire: $("#Identifire"),
+			NameEn: $("#NameEn"),
+			NameAr: $("#NameAr"),
+            //------------------------------------------------
+            ObjectIsReady: false,
+            formId: $("#ImagesCategoriesNewsForm"),
+            list: $('#ImagesCategoriesList'),
+            autoRefresh: true,
+            Validator: null,
+            //------------------------------------------------
+            AddURl: '/ImagesCategories/Create',
+            UpdateURl: '/ImagesCategories/Update',
+            DeleteUrl: '/ImagesCategories/Delete',
+            GetObjeUrl: '/ImagesCategories/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+				ImagesCategoriesPost.CategoryID = this.CategoryID.val();
+				ImagesCategoriesPost.Identifire = this.Identifire.val();
+				ImagesCategoriesPost.NameEn = this.NameEn.val();
+				ImagesCategoriesPost.NameAr = this.NameAr.val();
+                    ImagesCategoriesPost.ObjectIsReady = true;
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+				this.CategoryID.val("");
+				this.Identifire.val("");
+				this.NameEn.val("");
+				this.NameAr.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+					this.CategoryID.val(data.CategoryID);
+					this.Identifire.val(data.Identifire);
+					this.NameEn.val(data.NameEn);
+					this.NameAr.val(data.NameAr);
+                }
+            }
+        };
+         </script>
+        <div class="fgrid">
+    @Html.Partial("FlexiGrid",(CustomModels.FlexigridModels.FlexigridViewModel)ViewData["flexigrid"])
+            </div>
+}
+
+

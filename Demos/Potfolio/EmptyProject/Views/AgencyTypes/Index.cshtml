@@ -1,0 +1,78 @@
+﻿@model Portfolio.Models.AgencyTypesModel
+
+@{
+    ViewBag.Title = "AgencyTypes";
+}
+
+<h2>AgencyTypes</h2>
+<div id="AgencyTypesDialog" style="display: none" title="Add / Edit AgencyTypes"> 
+    @Html.Partial("AgencyTypesDialog")
+    </div>
+<br />
+<table id="AgencyTypesList" style="display: none"></table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var AgencyTypesPost = {
+            ObjectIsReady: false,
+			AgencyTypeID: null,
+			Title: null
+        };
+
+        var AgencyTypesForm = {
+            //------------------------------------------------
+			AgencyTypeID: $("#AgencyTypeID"),
+			Title: $("#Title"),
+            //------------------------------------------------
+            ObjectIsReady: false,
+            formId: $("#AgencyTypesNewsForm"),
+            list: $('#AgencyTypesList'),
+            autoRefresh: true,
+            Validator: null,
+            //------------------------------------------------
+            AddURl: '/AgencyTypes/Create',
+            UpdateURl: '/AgencyTypes/Update',
+            DeleteUrl: '/AgencyTypes/Delete',
+            GetObjeUrl: '/AgencyTypes/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+				AgencyTypesPost.AgencyTypeID = this.AgencyTypeID.val();
+				AgencyTypesPost.Title = this.Title.val();
+                    AgencyTypesPost.ObjectIsReady = true;
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+				this.AgencyTypeID.val("");
+				this.Title.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+					this.AgencyTypeID.val(data.AgencyTypeID);
+					this.Title.val(data.Title);
+                }
+            }
+        };
+         </script>
+        <div class="fgrid">
+    @Html.Partial("FlexiGrid",(CustomModels.FlexigridModels.FlexigridViewModel)ViewData["flexigrid"])
+            </div>
+}
+
+

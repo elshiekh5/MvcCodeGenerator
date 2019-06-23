@@ -1,0 +1,78 @@
+﻿@model IndexersCP4.Models.JournalsOwnersModel
+
+@{
+    ViewBag.Title = "JournalsOwners";
+}
+
+<h2>JournalsOwners</h2>
+<div id="JournalsOwnersDialog" style="display: none" title="Add / Edit JournalsOwners"> 
+    @Html.Partial("JournalsOwnersDialog")
+    </div>
+<br />
+<table id="JournalsOwnersList" style="display: none"></table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var JournalsOwnersPost = {
+            ObjectIsReady: false,
+			JournalOwner: null,
+			OwnerName: null
+        };
+
+        var JournalsOwnersForm = {
+            //------------------------------------------------
+			JournalOwner: $("#JournalOwner"),
+			OwnerName: $("#OwnerName"),
+            //------------------------------------------------
+            ObjectIsReady: false,
+            formId: $("#JournalsOwnersNewsForm"),
+            list: $('#JournalsOwnersList'),
+            autoRefresh: true,
+            Validator: null,
+            //------------------------------------------------
+            AddURl: '/JournalsOwners/Create',
+            UpdateURl: '/JournalsOwners/Update',
+            DeleteUrl: '/JournalsOwners/Delete',
+            GetObjeUrl: '/JournalsOwners/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+				JournalsOwnersPost.JournalOwner = this.JournalOwner.val();
+				JournalsOwnersPost.OwnerName = this.OwnerName.val();
+                    JournalsOwnersPost.ObjectIsReady = true;
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+				this.JournalOwner.val("");
+				this.OwnerName.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+					this.JournalOwner.val(data.JournalOwner);
+					this.OwnerName.val(data.OwnerName);
+                }
+            }
+        };
+         </script>
+        <div class="fgrid">
+    @Html.Partial("FlexiGrid",(CustomModels.FlexigridModels.FlexigridViewModel)ViewData["flexigrid"])
+            </div>
+}
+
+

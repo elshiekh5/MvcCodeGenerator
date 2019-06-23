@@ -1,0 +1,242 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+    <div id="add-edit-dialog" style="display: none" title="Add / Edit Job Post"> 
+        <form id="add-edit-form">
+        <div id="messageBox1">
+            <ul></ul> 
+        </div>
+	   <fieldset>
+           <legend></legend>
+           <input type="hidden" name="itemid" id="itemid" />
+		    <label for="role">Role</label>
+		    <input type="text" name="role" id="role" class="text ui-widget-content ui-corner-all" />
+		    <label for="description">Description</label>
+            <textarea id="description" name="description" cols="32" rows="3" class="ui-widget-content" ></textarea>		
+		    <label for="jobtype">Job Type</label>
+		    <input type="text" name="jobtype" id="jobtype" value="" class="text ui-widget-content ui-corner-all" />
+            <label for="paymentrate">Payment Rate</label>
+		    <input type="text" name="paymentrate" id="paymentrate" value="" class="text ui-widget-content ui-corner-all" />
+            <label for="location">Location</label>
+           <input class="text-box single-line" data-val="true" data-val-required="The location field is required." id="location" name="location" type="text" value="" class="text ui-widget-content ui-corner-all"/>
+            <span class="field-validation-valid" data-valmsg-for="Title" data-valmsg-replace="true"></span>
+	   </fieldset>
+            </form>
+    </div>
+
+
+<br />
+<table id="jobListing" style="display: none"></table>
+
+@section Styles {
+    <style>
+		input.text { margin-bottom:12px; width:95%; padding: .4em; }
+		fieldset { padding:0; border:0; margin-top:25px; }
+		h1 { font-size: 1.2em; margin: .6em 0; }
+		.ui-dialog .ui-state-error { padding: .3em; }        
+        .error {
+         border-color:red !important;
+         border-style:solid;
+         border-width:1px;
+        }
+        label.error {
+            border: none;
+        }
+        		
+	</style>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var jobForm = {
+            ObjectIsReady: false,
+            formId: $("#add-edit-form"),
+            list: $('#jobListing'),
+            autoRefresh: true,
+            Id_Control: $("#itemid"),
+            Role_Control: $("#role"),
+            Location_Control: $("#location"),
+            JobType_Control: $("#jobtype"),
+            Description_Control: $("#description"),
+            PaymentRate_Control: $("#paymentrate"),
+            Validator: null,
+            SaveURl: '/Jobs/Save',
+            DeleteUrl: '/Jobs/Delete',
+            GetObjectUrl: '/Jobs/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+                    jobPost.Id = this.Id_Control.val();
+                    jobPost.Role = this.Role_Control.val();
+                    jobPost.Location = this.Location_Control.val();
+                    jobPost.JobType = this.JobType_Control.val();
+                    jobPost.Description = this.Description_Control.val();
+                    jobPost.PaymentRate = this.PaymentRate_Control.val();
+                    jobPost.ObjectIsReady = true;
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+                    this.Id_Control.val("");
+                    this.Role_Control.val("");
+                    this.Location_Control.val("");
+                    this.JobType_Control.val("");
+                    this.Description_Control.val("");
+                    this.PaymentRate_Control.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+                    this.Id_Control.val(data.Id);
+                    this.Role_Control.val(data.Role);
+                    this.Location_Control.val(data.Location);
+                    this.JobType_Control.val(data.JobType);
+                    this.Description_Control.val(data.Description);
+                    this.PaymentRate_Control.val(data.PaymentRate);
+                }
+            },
+            //-----------------------------------------------
+            //initialize validation
+            //-----------------------------------------------
+            InitValidator: function () {
+                this.Validator=$("#add-edit-form").validate();
+            }
+        };
+
+
+
+        var jobPost = {
+            ObjectIsReady:false,
+            Id: null,
+            Role: null,
+            Location: null,
+            JobType: null,
+            Description: null,
+            PaymentRate: null
+        };
+        </script>
+        <script type="text/javascript">
+        //http://groups.google.com/group/flexigrid
+        $('#jobListing').flexigrid({
+            url: '/Jobs/List',
+            dataType: 'json',
+            colModel: [
+                {
+                display: 'Role',
+                name: 'Role',
+                width: 180,
+                sortable: true,
+                align: 'left'
+            },{
+                display: 'Description',
+                name: 'Description',
+                width: 180,
+                sortable: true,
+                align: 'left'
+            },{
+                display: 'Job Type',
+                name: 'JobType',
+                width: 130,
+                sortable: true,
+                align: 'left'
+            },{
+                display: 'Location',
+                name: 'Location',
+                width: 120,
+                sortable: true,
+                align: 'left'
+            }],
+            buttons: [{
+                name: 'Add',
+                bclass: 'add',
+                onpress: Add
+            }, {
+                name: 'Edit',
+                bclass: 'edit',
+                onpress: Edit
+            }, {
+                name: 'Delete',
+                bclass: 'delete',
+                onpress: Delete
+            }, {
+                separator: true
+            }],
+            searchitems: [{
+                display: 'Role',
+                name: 'Role'
+            }, {
+                display: 'Location',
+                name: 'Location',
+                isdefault: true
+            }],
+            sortname: "Role",
+            sortorder: "asc",
+            usepager: true,
+            title: 'Job Listing',
+            useRp: true,
+            rp: 15,
+            showTableToggleBtn: true,
+            width: 700,
+            height: 200
+        });
+
+        function Add(com, grid)
+        {            
+           FormController.OpenDialog();
+        }
+        function Edit(com, grid) {
+            var selectedRows = $('.trSelected', grid).length;
+            if (com == 'Edit' && selectedRows > 0) {
+                if (selectedRows == 1) {
+                    $('.trSelected', grid).each(function () {
+                        FormController.LoadData($(this).attr('id').substr(3));
+                    });
+                } else {
+                    alert("Select only one row");
+                }
+            }
+        }
+        function Delete(com, grid) {
+            var selectedRows = $('.trSelected', grid).length;
+            if (selectedRows > 0) {
+                var proceed = confirm('Delete ' + selectedRows + ' item(s)?');
+                if (!proceed) {
+                    return false;
+                }
+
+                var ids = new Array();
+                
+                $('.trSelected', grid).each(function (index) {
+                    ids[index] = $(this).attr('id').substr(3);
+                });
+                
+                FormController.Delete(ids);
+                
+            } 
+        }
+
+        $(document).ready(function(){
+            FormController.Init(jobForm, "#add-edit-dialog");
+        });
+
+        
+	</script>
+
+}

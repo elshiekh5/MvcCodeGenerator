@@ -1,0 +1,83 @@
+﻿@model AppCore.ImagesWithBlocksModel
+
+@{
+    ViewBag.Title = "ImagesWithBlocks";
+}
+
+<h2>ImagesWithBlocks</h2>
+<div id="ImagesWithBlocksDialog" style="display: none" title="Add / Edit ImagesWithBlocks"> 
+    @Html.Partial("ImagesWithBlocksDialog")
+    </div>
+<br />
+<table id="ImagesWithBlocksList" style="display: none"></table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var ImagesWithBlocksPost = {
+            ObjectIsReady: false,
+			ID: null,
+			ImageID: null,
+			BlocKey: null
+        };
+
+        var ImagesWithBlocksForm = {
+            //------------------------------------------------
+			ID: $("#ID"),
+			ImageID: $("#ImageID"),
+			BlocKey: $("#BlocKey"),
+            //------------------------------------------------
+            ObjectIsReady: false,
+            formId: $("#ImagesWithBlocksNewsForm"),
+            list: $('#ImagesWithBlocksList'),
+            autoRefresh: true,
+            Validator: null,
+            //------------------------------------------------
+            AddURl: '/ImagesWithBlocks/Create',
+            UpdateURl: '/ImagesWithBlocks/Update',
+            DeleteUrl: '/ImagesWithBlocks/Delete',
+            GetObjeUrl: '/ImagesWithBlocks/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+				ImagesWithBlocksPost.ID = this.ID.val();
+				ImagesWithBlocksPost.ImageID = this.ImageID.val();
+				ImagesWithBlocksPost.BlocKey = this.BlocKey.val();
+                    ImagesWithBlocksPost.ObjectIsReady = true;
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+				this.ID.val("");
+				this.ImageID.val("");
+				this.BlocKey.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+					this.ID.val(data.ID);
+					this.ImageID.val(data.ImageID);
+					this.BlocKey.val(data.BlocKey);
+                }
+            }
+        };
+         </script>
+        <div class="fgrid">
+    @Html.Partial("FlexiGrid",(CustomModels.FlexigridModels.FlexigridViewModel)ViewData["flexigrid"])
+            </div>
+}
+
+

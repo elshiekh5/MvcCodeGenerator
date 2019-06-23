@@ -1,0 +1,79 @@
+﻿@model Portfolio.Models.SitesModel
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<form id="SitesNewsForm" class="gForm">
+    @Html.ValidationSummary(true)
+     <div id="messageBox1">
+            <ul></ul> 
+        </div>
+    <fieldset>
+        <legend></legend>
+			@Html.HiddenFor(model => model.SiteID)
+		<div class="editor-label">
+			@Html.LabelFor(model => model.Name)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.Name)
+			@Html.ValidationMessageFor(model => model.Name)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.Url)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.Url)
+			@Html.ValidationMessageFor(model => model.Url)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.PhotoFile)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.PhotoFile)
+			@Html.ValidationMessageFor(model => model.PhotoFile)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.LogoFile)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.LogoFile)
+			@Html.ValidationMessageFor(model => model.LogoFile)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.Brief)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.Brief)
+			@Html.ValidationMessageFor(model => model.Brief)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.Address)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.Address)
+			@Html.ValidationMessageFor(model => model.Address)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.AgencyTypeID)
+		</div>
+		<div class="editor-field">
+			@Html.DropDownListFor(x => x.AgencyTypeID,  (IEnumerable<SelectListItem>)ViewData["AgencyTypeID"],"Choose")
+			@Html.ValidationMessageFor(model => model.AgencyTypeID)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.BusinessSectionID)
+		</div>
+		<div class="editor-field">
+			@Html.DropDownListFor(x => x.BusinessSectionID,  (IEnumerable<SelectListItem>)ViewData["BusinessSectionID"],"Choose")
+			@Html.ValidationMessageFor(model => model.BusinessSectionID)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.CountryID)
+		</div>
+		<div class="editor-field">
+			@Html.DropDownListFor(x => x.CountryID,  (IEnumerable<SelectListItem>)ViewData["CountryID"],"Choose")
+			@Html.ValidationMessageFor(model => model.CountryID)
+		</div>
+    </fieldset>
+</form>

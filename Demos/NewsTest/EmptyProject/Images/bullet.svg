@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="7px" height="36px" viewBox="0 0 7 36" enable-background="new 0 0 7 36" xml:space="preserve">
+
+<circle fill="#C2C2C2" cx="3.464" cy="8.829" r="3.423"/>
+
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="285.4407" y1="-110.4429" x2="285.4826" y2="-114.1056" gradientTransform="matrix(1 0 0 -1 -282 -105)">
+	<stop  offset="0" style="stop-color:#FFFFFF"/>
+	<stop  offset="0.9799" style="stop-color:#ECECEC;stop-opacity:0"/>
+</linearGradient>
+
+<ellipse fill="url(#SVGID_1_)" cx="3.464" cy="7.496" rx="2.5" ry="1.905"/>
+
+<circle fill="#73AB14" cx="3.464" cy="27.547" r="3.422"/>
+
+<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="285.4407" y1="-129.1621" x2="285.4825" y2="-132.8225" gradientTransform="matrix(1 0 0 -1 -282 -105)">
+	<stop  offset="0" style="stop-color:#FFFFFF"/>
+	<stop  offset="0.9799" style="stop-color:#ECECEC;stop-opacity:0"/>
+</linearGradient>
+
+<ellipse fill="url(#SVGID_2_)" cx="3.464" cy="26.215" rx="2.5" ry="1.904"/>
+
+</svg>

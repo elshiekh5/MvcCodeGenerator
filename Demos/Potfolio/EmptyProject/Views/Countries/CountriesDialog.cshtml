@@ -1,0 +1,72 @@
+﻿@model Portfolio.Models.CountriesModel
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<form id="CountriesNewsForm" class="gForm">
+    @Html.ValidationSummary(true)
+     <div id="messageBox1">
+            <ul></ul> 
+        </div>
+    <fieldset>
+        <legend></legend>
+			@Html.HiddenFor(model => model.CountryID)
+		<div class="editor-label">
+			@Html.LabelFor(model => model.Code)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.Code)
+			@Html.ValidationMessageFor(model => model.Code)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.EnglishName)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.EnglishName)
+			@Html.ValidationMessageFor(model => model.EnglishName)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.ArabicName)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.ArabicName)
+			@Html.ValidationMessageFor(model => model.ArabicName)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.TIMEZONE_H)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.TIMEZONE_H)
+			@Html.ValidationMessageFor(model => model.TIMEZONE_H)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.TIMEZONE_M)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.TIMEZONE_M)
+			@Html.ValidationMessageFor(model => model.TIMEZONE_M)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.Reg_ID)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.Reg_ID)
+			@Html.ValidationMessageFor(model => model.Reg_ID)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.SimpleArName)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.SimpleArName)
+			@Html.ValidationMessageFor(model => model.SimpleArName)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.SimpleEnName)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.SimpleEnName)
+			@Html.ValidationMessageFor(model => model.SimpleEnName)
+		</div>
+    </fieldset>
+</form>

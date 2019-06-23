@@ -1,0 +1,48 @@
+﻿@model GEN.Models.RegisterModel
+@{
+    ViewBag.Title = "Create a new account";
+}
+<h2>Create a new account</h2>
+    <div  class="gForm">
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    <fieldset>
+        <legend></legend>
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary()
+		<div class="editor-label">
+			  @Html.LabelFor(m => m.UserName)
+		</div>
+		<div class="div.editor-field2">
+		        @Html.TextBoxFor(m => m.UserName)
+                @Html.ValidationMessageFor(m => m.UserName)
+		</div>
+		<div class="editor-label">
+                @Html.LabelFor(m => m.Password)
+		</div>
+		<div class="editor-field2">
+			    @Html.PasswordFor(m => m.Password)
+                @Html.ValidationMessageFor(m => m.Password)
+		</div>
+		
+		<div class="editor-label">
+			@Html.LabelFor(model => model.ConfirmPassword)
+		</div>
+		<div class="editor-field2">
+			     @Html.PasswordFor(m => m.ConfirmPassword)
+                @Html.ValidationMessageFor(m => m.ConfirmPassword)
+		</div>
+        <div class="editor-label">
+		</div>
+		<div class="editor-field2">
+			<input type="submit" value="Register" />
+		</div>
+    </fieldset>
+}
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

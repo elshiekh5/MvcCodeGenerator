@@ -1,0 +1,78 @@
+﻿@model AppCore.RequestsModel
+
+@{
+    ViewBag.Title = "Requests";
+}
+
+<h2>Requests</h2>
+<div id="RequestsDialog" style="display: none" title="Add / Edit Requests"> 
+    @Html.Partial("RequestsDialog")
+    </div>
+<br />
+<table id="RequestsList" style="display: none"></table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var RequestsPost = {
+            ObjectIsReady: false,
+			RequestID: null,
+			RequestTime: null
+        };
+
+        var RequestsForm = {
+            //------------------------------------------------
+			RequestID: $("#RequestID"),
+			RequestTime: $("#RequestTime"),
+            //------------------------------------------------
+            ObjectIsReady: false,
+            formId: $("#RequestsNewsForm"),
+            list: $('#RequestsList'),
+            autoRefresh: true,
+            Validator: null,
+            //------------------------------------------------
+            AddURl: '/Requests/Create',
+            UpdateURl: '/Requests/Update',
+            DeleteUrl: '/Requests/Delete',
+            GetObjeUrl: '/Requests/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+				RequestsPost.RequestID = this.RequestID.val();
+				RequestsPost.RequestTime = this.RequestTime.val();
+                    RequestsPost.ObjectIsReady = true;
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+				this.RequestID.val("");
+				this.RequestTime.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+					this.RequestID.val(data.RequestID);
+					this.RequestTime.val(FormController.FormatJsonDate(data.RequestTime));
+                }
+            }
+        };
+         </script>
+        <div class="fgrid">
+    @Html.Partial("FlexiGrid",(CustomModels.FlexigridModels.FlexigridViewModel)ViewData["flexigrid"])
+            </div>
+}
+
+

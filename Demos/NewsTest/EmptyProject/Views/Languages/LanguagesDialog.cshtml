@@ -1,0 +1,43 @@
+﻿@model Test.Models.LanguagesModel
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<form id="LanguagesNewsForm" class="gForm">
+    @Html.ValidationSummary(true)
+     <div id="messageBox1">
+            <ul></ul> 
+        </div>
+    <fieldset>
+        <legend></legend>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.LangID)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.LangID)
+			@Html.ValidationMessageFor(model => model.LangID)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.Name)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.Name)
+			@Html.ValidationMessageFor(model => model.Name)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.Code)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.Code)
+			@Html.ValidationMessageFor(model => model.Code)
+		</div>
+		<div class="editor-label">
+			@Html.LabelFor(model => model.LocalizationCode)
+		</div>
+		<div class="editor-field">
+			@Html.EditorFor(model => model.LocalizationCode)
+			@Html.ValidationMessageFor(model => model.LocalizationCode)
+		</div>
+    </fieldset>
+</form>

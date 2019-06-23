@@ -1,0 +1,83 @@
+﻿@model IndexersCP4.Models.IndexersModel
+
+@{
+    ViewBag.Title = "Indexers";
+}
+
+<h2>Indexers</h2>
+<div id="IndexersDialog" style="display: none" title="Add / Edit Indexers"> 
+    @Html.Partial("IndexersDialog")
+    </div>
+<br />
+<table id="IndexersList" style="display: none"></table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var IndexersPost = {
+            ObjectIsReady: false,
+			IndexerID: null,
+			Name: null,
+			OwnerID: null
+        };
+
+        var IndexersForm = {
+            //------------------------------------------------
+			IndexerID: $("#IndexerID"),
+			Name: $("#Name"),
+			OwnerID: $("#OwnerID"),
+            //------------------------------------------------
+            ObjectIsReady: false,
+            formId: $("#IndexersNewsForm"),
+            list: $('#IndexersList'),
+            autoRefresh: true,
+            Validator: null,
+            //------------------------------------------------
+            AddURl: '/Indexers/Create',
+            UpdateURl: '/Indexers/Update',
+            DeleteUrl: '/Indexers/Delete',
+            GetObjeUrl: '/Indexers/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+				IndexersPost.IndexerID = this.IndexerID.val();
+				IndexersPost.Name = this.Name.val();
+				IndexersPost.OwnerID = this.OwnerID.val();
+                    IndexersPost.ObjectIsReady = true;
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+				this.IndexerID.val("");
+				this.Name.val("");
+				this.OwnerID.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+					this.IndexerID.val(data.IndexerID);
+					this.Name.val(data.Name);
+					this.OwnerID.val(data.OwnerID);
+                }
+            }
+        };
+         </script>
+        <div class="fgrid">
+    @Html.Partial("FlexiGrid",(CustomModels.FlexigridModels.FlexigridViewModel)ViewData["flexigrid"])
+            </div>
+}
+
+

@@ -1,0 +1,132 @@
+﻿@model News.Models.ItemsModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<div id="NewsDialog" style="display: none" title="Add / Edit Job Post"> 
+    @Html.Partial("NewsDialog")
+    </div>
+    
+
+
+<br />
+<table id="newsList" style="display: none"></table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var JobPost = {
+            ObjectIsReady: false,
+            ItemID: null,
+            CategoryID: null,
+            PhotoFile: null,
+            Url: null,
+            Type: null,
+            IsMain: null,
+            YoutubeCode: null,
+            Title: null,
+            Type: null,
+            Description: null
+        };
+
+        var jobForm = {
+            //------------------------------------------------
+            ItemID: $("#ItemID"),
+            CategoryId: $("#CategoryID"),
+            PhotoFile: $("#PhotoFile"),
+            Url: $("#Url"),
+            Type: $("#Type"),
+            IsMain: $("#IsMain"),
+            YoutubeCode: $("#YoutubeCode"),
+            Title: $("#Title"),
+            Description: $("#Description"),
+            //------------------------------------------------
+            ObjectIsReady: false,
+            formId: $("#NewsForm"),
+            list: $('#newsList'),
+            autoRefresh: true,
+            Validator: null,
+            //------------------------------------------------
+            SaveURl: '/News/Save',
+            DeleteUrl: '/News/Delete',
+            GetObjeUrl: '/News/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+                    JobPost.ItemID = this.ItemID.val();
+                    JobPost.CategoryID = this.CategoryId.val();
+                    JobPost.PhotoFile = this.PhotoFile.val();
+                    JobPost.Url = this.Url.val();
+                    JobPost.Type = this.Type.val();
+                    JobPost.IsMain = this.IsMain.is(":checked");
+                    JobPost.YoutubeCode = this.YoutubeCode.val();
+                    JobPost.Title = this.Title.val();
+                    JobPost.Description = this.Description.val();
+                    JobPost.ObjectIsReady = true;
+
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+                this.ItemID.val("");
+                    this.CategoryId.val("");
+                    this.PhotoFile.val("");
+                    this.Url.val("");
+                    this.Type.val("");
+                    this.IsMain.prop('checked', false);
+                    this.YoutubeCode.val("");
+                    this.Title.val("");
+                    this.Description.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+                    this.ItemID.val(data.ItemID);
+                    this.CategoryId.val(data.CategoryID);
+                    this.PhotoFile.val(data.PhotoFile);
+                    this.Url.val(data.Url);
+                    this.Type.val(data.Type);
+                    this.IsMain.prop('checked', data.IsMain);
+                    this.YoutubeCode.val(data.YoutubeCode);
+                    this.Title.val(data.Title);
+                    this.Description.val(data.Description);
+                }
+            },
+            //-----------------------------------------------
+            //initialize validation
+            //-----------------------------------------------
+           /* InitValidator: function () {
+                this.Validator=$("#NewsForm").validate({
+                    errorContainer: "#messageBox1",
+                    errorLabelContainer: "#messageBox1 ul",
+                    wrapper: "li",
+                    rules: {
+                        
+                    },
+                    messages: {
+                       
+                    }
+                });
+            }*/
+        };
+         </script>
+        
+    @Html.Partial("FlexiGrid",(TestingWebsite.Models.FlexigridViewModel)ViewData["flexigrid"])
+}
+
+

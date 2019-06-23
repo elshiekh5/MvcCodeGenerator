@@ -1,0 +1,83 @@
+﻿@model Test.Models.SchoolsToNewsModel
+
+@{
+    ViewBag.Title = "SchoolsToNews";
+}
+
+<h2>SchoolsToNews</h2>
+<div id="SchoolsToNewsDialog" style="display: none" title="Add / Edit SchoolsToNews"> 
+    @Html.Partial("SchoolsToNewsDialog")
+    </div>
+<br />
+<table id="SchoolsToNewsList" style="display: none"></table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flexigrid")
+    @Scripts.Render("~/bundles/FormController")
+
+    <script type="text/javascript">
+        
+        var SchoolsToNewsPost = {
+            ObjectIsReady: false,
+			ShoolsToNewsID: null,
+			SchoolID: null,
+			NewsID: null
+        };
+
+        var SchoolsToNewsForm = {
+            //------------------------------------------------
+			ShoolsToNewsID: $("#ShoolsToNewsID"),
+			SchoolID: $("#SchoolID"),
+			NewsID: $("#NewsID"),
+            //------------------------------------------------
+            ObjectIsReady: false,
+            formId: $("#SchoolsToNewsNewsForm"),
+            list: $('#SchoolsToNewsList'),
+            autoRefresh: true,
+            Validator: null,
+            //------------------------------------------------
+            AddURl: '/SchoolsToNews/Create',
+            UpdateURl: '/SchoolsToNews/Update',
+            DeleteUrl: '/SchoolsToNews/Delete',
+            GetObjeUrl: '/SchoolsToNews/GetObject?id=',
+            //-----------------------------------------------
+            //Load object by values
+            //-----------------------------------------------
+            LoadObject: function ()
+            {
+				SchoolsToNewsPost.ShoolsToNewsID = this.ShoolsToNewsID.val();
+				SchoolsToNewsPost.SchoolID = this.SchoolID.val();
+				SchoolsToNewsPost.NewsID = this.NewsID.val();
+                    SchoolsToNewsPost.ObjectIsReady = true;
+            },
+            //-----------------------------------------------
+            //Clear Form data
+            //-----------------------------------------------
+            Clear: function () {
+				this.ShoolsToNewsID.val("");
+				this.SchoolID.val("");
+				this.NewsID.val("");
+                    this.Validator.resetForm();
+
+            },
+            //-----------------------------------------------
+            //Set object values into controls
+            //-----------------------------------------------
+            LoadControls: function (data) {
+                if (data != null) {
+					this.ShoolsToNewsID.val(data.ShoolsToNewsID);
+					this.SchoolID.val(data.SchoolID);
+					this.NewsID.val(data.NewsID);
+                }
+            }
+        };
+         </script>
+        <div class="fgrid">
+    @Html.Partial("FlexiGrid",(CustomModels.FlexigridModels.FlexigridViewModel)ViewData["flexigrid"])
+            </div>
+}
+
+
